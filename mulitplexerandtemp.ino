@@ -1,6 +1,11 @@
 
 #include <Wire.h>
 #include <SparkFunHTU21D.h>
+#include <LiquidCrystal.h>
+
+//lcd display
+LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
+
 
 //Create an instance of the object
 HTU21D myHumidity;
@@ -38,6 +43,9 @@ void setup() {
   
   TCA9548A(7);
 
+  //lcd display
+  lcd.begin(16, 2);
+  lcd.print("Data Display");
 }
 
 // I2c Scan Function
@@ -93,6 +101,10 @@ void Tempcal(){
   Serial.print("%");
 
   Serial.println();
+
+  //lcd preview 
+  Lcd("Temprature" , temp);
+  Lcd("Humidity" , humd);
 }
 
 void Ultrasonic(){
@@ -130,6 +142,20 @@ void Moisture(){
   Serial.print("The soil Moisture is : ");
   Serial.print(value);
 
+  //lcd preview data
+  Lcd("Mositure" , value);
+
+}
+
+//lcd display function
+void Lcd(char myString[], int data){
+  
+  lcd.clear();
+  lcd.write(myString);
+  lcd.write(" : ");
+  lcd.print(data);
+  delay(2000);
+  lcd.clear();
 }
 
 void loop() {
