@@ -10,6 +10,8 @@ int trigPin = 11;    // Trigger
 int echoPin = 12;    // Echo
 long duration, cm, inches;
 
+//soil moisture sensor variable declaration
+#define AOUT_PIN A0 // Arduino pin that connects to AOUT pin of moisture sensor 
 
 // Select I2C BUS
 void TCA9548A(uint8_t bus){
@@ -91,7 +93,6 @@ void Tempcal(){
   Serial.print("%");
 
   Serial.println();
-  delay(1000);
 }
 
 void Ultrasonic(){
@@ -119,9 +120,17 @@ void Ultrasonic(){
   Serial.print("cm");
   Serial.println();
   
-  delay(250);
 }
 
+
+//soil moisture function
+void Moisture(){
+  int value = analogRead(AOUT_PIN); // read the analog value from sensor
+ 
+  Serial.print("The soil Moisture is : ");
+  Serial.print(value);
+
+}
 
 void loop() {
 
@@ -129,6 +138,12 @@ void loop() {
 // Serial.println("working function");
 TCA9548A(7);
 Tempcal();
+Serial.println(" ");
 Ultrasonic();
+Serial.println(" ");
+Moisture();
+Serial.println(" ");
+
+delay(5000);
 
 }
